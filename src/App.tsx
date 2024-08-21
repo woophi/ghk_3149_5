@@ -49,7 +49,7 @@ export const App = () => {
   const numberValue = typeof value === 'string' ? Number(value.replace(/\s+/g, '')) : value;
   const monthlyRate = numberValue > 29_999 ? 0.3999 : 0.598;
   const monthlyPayment = calculatePayment(numberValue, monthlyRate, periodValue);
-  const totalOverpay = monthlyPayment * periodValue - numberValue;
+  const totalOverpay = (monthlyPayment * periodValue - numberValue) / periodValue;
 
   const handleInputChange: SliderInputProps['onInputChange'] = (_, { value }) => {
     setValue(typeof value === 'string' ? Number(value.replace(/\s+/g, '')) : value);
@@ -144,49 +144,10 @@ export const App = () => {
 
         <div className={appSt.box}>
           <Typography.Text view="primary-medium" weight="bold">
-            {totalOverpay.toLocaleString('ru')} ₽
+            {Number(totalOverpay.toFixed(2)).toLocaleString('ru')} ₽
           </Typography.Text>
 
-          <Typography.Text view="primary-small">Эту сумму вы переплатите за весь период займа</Typography.Text>
-        </div>
-
-        <div className={appSt.row}>
-          <div className={appSt.img}>
-            <CDNIcon name="glyph_clock_m" />
-          </div>
-
-          <div className={appSt.rowText}>
-            <Typography.Text view="primary-medium">Зачислим за 5 минут</Typography.Text>
-            <Typography.Text view="primary-small" color="secondary">
-              Все документы уже готовы и подписаны
-            </Typography.Text>
-          </div>
-        </div>
-
-        <div className={appSt.row}>
-          <div className={appSt.img}>
-            <CDNIcon name="glyph_checkmark-circle_m" />
-          </div>
-
-          <div className={appSt.rowText}>
-            <Typography.Text view="primary-medium">Досрочное погашение без переплат</Typography.Text>
-            <Typography.Text view="primary-small" color="secondary">
-              При досрочном погашении вы не переплачиваете лишние деньги
-            </Typography.Text>
-          </div>
-        </div>
-
-        <div className={appSt.row}>
-          <div className={appSt.img}>
-            <CDNIcon name="glyph_percent-circle_m" />
-          </div>
-
-          <div className={appSt.rowText}>
-            <Typography.Text view="primary-medium">Нет комиссий за снятие</Typography.Text>
-            <Typography.Text view="primary-small" color="secondary">
-              Кредитные деньги не облагаются дополнительной комиссией на вывод
-            </Typography.Text>
-          </div>
+          <Typography.Text view="primary-small">Сумма переплаты в месяц</Typography.Text>
         </div>
       </div>
       <div className={appSt.bottomBtn}>
